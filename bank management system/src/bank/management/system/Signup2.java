@@ -33,8 +33,6 @@ public class Signup2 extends JFrame implements ActionListener {
         l2 = new JLabel("Religion:");
         l2.setFont(new Font("Raleway", Font.BOLD, 18));
         
-        // REMOVED: Category field
-        
         l3 = new JLabel("Income:");
         l3.setFont(new Font("Raleway", Font.BOLD, 18));
         
@@ -47,15 +45,12 @@ public class Signup2 extends JFrame implements ActionListener {
         l5 = new JLabel("Occupation:");
         l5.setFont(new Font("Raleway", Font.BOLD, 18));
         
-        // CHANGED: PAN to NID
         l6 = new JLabel("NID Number:");
         l6.setFont(new Font("Raleway", Font.BOLD, 18));
         
-        // CHANGED: Aadhar to Phone Number
         l7 = new JLabel("Phone Number:");
         l7.setFont(new Font("Raleway", Font.BOLD, 18));
         
-        // ADDED: Permanent Address
         l8 = new JLabel("Permanent Address:");
         l8.setFont(new Font("Raleway", Font.BOLD, 18));
         
@@ -76,15 +71,12 @@ public class Signup2 extends JFrame implements ActionListener {
         b.setBackground(Color.BLACK);
         b.setForeground(Color.WHITE);
         
-        // NID Number field (was PAN)
         t1 = new JTextField();
         t1.setFont(new Font("Raleway", Font.BOLD, 14));
         
-        // Phone Number field (was Aadhar)
         t2 = new JTextField();
         t2.setFont(new Font("Raleway", Font.BOLD, 14));
         
-        // Permanent Address field (NEW)
         addressArea = new JTextArea(3, 20);
         addressArea.setFont(new Font("Raleway", Font.PLAIN, 14));
         addressArea.setLineWrap(true);
@@ -108,15 +100,24 @@ public class Signup2 extends JFrame implements ActionListener {
         r4.setFont(new Font("Raleway", Font.BOLD, 14));
         r4.setBackground(Color.WHITE);
         
-        // Religion options for Bangladesh
+        // Add ButtonGroups for proper radio button grouping within each category
+        ButtonGroup seniorGroup = new ButtonGroup();
+        seniorGroup.add(r1);
+        seniorGroup.add(r2);
+        
+        ButtonGroup accountGroup = new ButtonGroup();
+        accountGroup.add(r3);
+        accountGroup.add(r4);
+        
+        // Set default selections to "No" for both categories
+        r2.setSelected(true);
+        r4.setSelected(true);
+        
         String religion[] = {"Islam", "Hinduism", "Buddhism", "Christianity", "Other"};
         c1 = new JComboBox(religion);
         c1.setBackground(Color.WHITE);
         c1.setFont(new Font("Raleway", Font.BOLD, 14));
         
-        // REMOVED: Category combo box
-        
-        // Income options updated for Bangladesh
         String income[] = {"Null", "<30,000 TK", "<50,000 TK", "<70,000 TK", 
                           "Upto 1,00,000 TK", "Above 2,00,000 TK"};
         c2 = new JComboBox(income);
@@ -146,21 +147,18 @@ public class Signup2 extends JFrame implements ActionListener {
         l1.setBounds(280, 30, 600, 40);
         add(l1);
         
-        // Religion
         l2.setBounds(100, 120, 100, 30);
         add(l2);
         
         c1.setBounds(350, 120, 320, 30);
         add(c1);
         
-        // Income (moved up since category removed)
         l3.setBounds(100, 170, 100, 30);
         add(l3);
         
         c2.setBounds(350, 170, 320, 30);
         add(c2);
         
-        // Education
         l4.setBounds(100, 220, 150, 30);
         add(l4);
         
@@ -170,35 +168,30 @@ public class Signup2 extends JFrame implements ActionListener {
         l11.setBounds(100, 240, 150, 30);
         add(l11);
         
-        // Occupation
         l5.setBounds(100, 290, 150, 30);
         add(l5);
         
         c4.setBounds(350, 290, 320, 30);
         add(c4);
         
-        // NID Number
         l6.setBounds(100, 340, 150, 30);
         add(l6);
         
         t1.setBounds(350, 340, 320, 30);
         add(t1);
         
-        // Phone Number
         l7.setBounds(100, 390, 180, 30);
         add(l7);
         
         t2.setBounds(350, 390, 320, 30);
         add(t2);
         
-        // Permanent Address
         l8.setBounds(100, 440, 200, 30);
         add(l8);
         
         addressScroll.setBounds(350, 440, 320, 60);
         add(addressScroll);
         
-        // Senior Citizen
         l9.setBounds(100, 520, 150, 30);
         add(l9);
         
@@ -208,7 +201,6 @@ public class Signup2 extends JFrame implements ActionListener {
         r2.setBounds(460, 520, 100, 30);
         add(r2);
         
-        // Existing Account
         l10.setBounds(100, 570, 180, 30);
         add(l10);
         
@@ -272,6 +264,9 @@ public class Signup2 extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(null, "NID must be 10 or 17 digits");
                 return;
             }
+            
+            // REMOVED: Business rule validation for "only one Yes" 
+            // Users can now select Yes/No independently for each field
             
             Conn c1 = new Conn();
             String q1 = "insert into signup2 values('" + formno + "','" + religion + "','" + 

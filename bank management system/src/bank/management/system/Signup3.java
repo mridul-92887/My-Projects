@@ -1,9 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package bank.management.system;
-
 
 import java.awt.*;
 import java.awt.event.*;
@@ -11,14 +6,17 @@ import javax.swing.*;
 import java.sql.*;
 import java.util.*;
 
-public class Signup3 extends JFrame implements ActionListener{
+public class Signup3 extends JFrame implements ActionListener {
     
     JLabel l1,l2,l3,l4,l5,l6,l7,l8,l9,l10,l11,l12;
     JRadioButton r1,r2,r3,r4;
     JButton b1,b2;
     JCheckBox c1,c2,c3,c4,c5,c6,c7;
     String formno;
-    Signup3(String formno){
+    String cardNumber; // Store the generated card number
+    String pin;        // Store the generated PIN
+    
+    Signup3(String formno) {
         this.formno = formno;
         setTitle("NEW ACCOUNT APPLICATION FORM - PAGE 3");
     
@@ -38,7 +36,8 @@ public class Signup3 extends JFrame implements ActionListener{
         l3 = new JLabel("Card Number:");
         l3.setFont(new Font("Raleway", Font.BOLD, 18));
         
-        l4 = new JLabel("XXXX-XXXX-XXXX-4184");
+        // We'll set the text after generating the card number
+        l4 = new JLabel();
         l4.setFont(new Font("Raleway", Font.BOLD, 18));
         
         l5 = new JLabel("(Your 16-digit Card number)");
@@ -50,6 +49,7 @@ public class Signup3 extends JFrame implements ActionListener{
         l7 = new JLabel("PIN:");
         l7.setFont(new Font("Raleway", Font.BOLD, 18));
         
+        // CHANGED: Show XXXX instead of the actual PIN
         l8 = new JLabel("XXXX");
         l8.setFont(new Font("Raleway", Font.BOLD, 18));
     
@@ -74,7 +74,6 @@ public class Signup3 extends JFrame implements ActionListener{
         b2.setFont(new Font("Raleway", Font.BOLD, 14));
         b2.setBackground(Color.BLACK);
         b2.setForeground(Color.WHITE);
-        
         
         c1 = new JCheckBox("ATM CARD");
         c1.setBackground(Color.WHITE);
@@ -204,7 +203,6 @@ public class Signup3 extends JFrame implements ActionListener{
         b2.setBounds(420,720,100,30);
         add(b2);
         
-        
         getContentPane().setBackground(Color.WHITE);
         
         setSize(850,850);
@@ -214,78 +212,89 @@ public class Signup3 extends JFrame implements ActionListener{
         b1.addActionListener(this);
         b2.addActionListener(this);
         
+        // Generate card number and PIN
+        generateCardNumberAndPIN();
     }
     
-    public void actionPerformed(ActionEvent ae){
+    private void generateCardNumberAndPIN() {
+        Random ran = new Random();
+        
+        // Generate card number (16 digits)
+        long cardSuffix = Math.abs(ran.nextLong() % 90000000L); // 8 digits
+        long cardPrefix = 5040936000000000L;
+        long cardNumLong = cardPrefix + cardSuffix;
+        cardNumber = String.valueOf(cardNumLong);
+        
+        // Format for display: show only last 4 digits
+        String formattedCardNumber = "XXXX-XXXX-XXXX-" + cardNumber.substring(cardNumber.length() - 4);
+        l4.setText(formattedCardNumber);
+        
+        // Generate PIN (4 digits, 1000 to 9999)
+        pin = String.valueOf(1000 + ran.nextInt(9000));
+        // PIN label already set to "XXXX" in constructor, so don't change it
+    }
+    
+    public void actionPerformed(ActionEvent ae) {
         String atype = null;
-        if(r1.isSelected()){ 
+        if (r1.isSelected()) { 
             atype = "Saving Account";
-        }
-        else if(r2.isSelected()){ 
+        } else if (r2.isSelected()) { 
             atype = "Fixed Deposit Account";
-        }
-        else if(r3.isSelected()){ 
+        } else if (r3.isSelected()) { 
             atype = "Current Account";
-        }else if(r4.isSelected()){ 
+        } else if (r4.isSelected()) { 
             atype = "Recurring Deposit Account";
         }
         
-        Random ran = new Random();
-        long first7 = (ran.nextLong() % 90000000L) + 5040936000000000L;
-        String cardno = "" + Math.abs(first7);
-        
-        long first3 = (ran.nextLong() % 9000L) + 1000L;
-        String pin = "" + Math.abs(first3);
-        
         String facility = "";
-        if(c1.isSelected()){ 
+        if (c1.isSelected()) { 
             facility = facility + " ATM Card";
         }
-        if(c2.isSelected()){ 
+        if (c2.isSelected()) { 
             facility = facility + " Internet Banking";
         }
-        if(c3.isSelected()){ 
+        if (c3.isSelected()) { 
             facility = facility + " Mobile Banking";
         }
-        if(c4.isSelected()){ 
+        if (c4.isSelected()) { 
             facility = facility + " EMAIL Alerts";
         }
-        if(c5.isSelected()){ 
+        if (c5.isSelected()) { 
             facility = facility + " Cheque Book";
         }
-        if(c6.isSelected()){ 
+        if (c6.isSelected()) { 
             facility = facility + " E-Statement";
         }
         
-        try{
-            if(ae.getSource()==b1){
-                
-                if(atype.equals("")){
-                    JOptionPane.showMessageDialog(null, "Fill all the required fields");
-                }else{
-                    Conn c1 = new Conn();
-                    String q1 = "insert into signup3 values('"+formno+"','"+atype+"','"+cardno+"','"+pin+"','"+facility+"')";  
-                    String q2 = "insert into login values('"+formno+"','"+cardno+"','"+pin+"')";
-                    c1.s.executeUpdate(q1);
-                    c1.s.executeUpdate(q2);
-                    JOptionPane.showMessageDialog(null, "Card Number: " + cardno + "\n Pin:"+ pin);
-                    
-                    new Deposit(pin).setVisible(true);
-                    setVisible(false);
+        try {
+            if (ae.getSource() == b1) {
+                if (atype == null) {
+                    JOptionPane.showMessageDialog(null, "Please select an account type");
+                    return;
                 }
-            
-            }else if(ae.getSource()==b2){
+                
+                Conn c1 = new Conn();
+                String q1 = "insert into signup3 values('" + formno + "','" + atype + "','" + cardNumber + "','" + pin + "','" + facility + "')";  
+                String q2 = "insert into login values('" + formno + "','" + cardNumber + "','" + pin + "')";
+                c1.s.executeUpdate(q1);
+                c1.s.executeUpdate(q2);
+                
+                JOptionPane.showMessageDialog(null, "Account created successfully!\nCard Number: " + cardNumber + "\nPIN: " + pin);
+                
+                // Proceed to the next step, e.g., deposit
+                new Deposit(pin).setVisible(true);
+                setVisible(false);
+                
+            } else if (ae.getSource() == b2) {
                 System.exit(0);
             }
-            
-        }catch(Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
         }
-        
     }
     
-    public static void main(String[] args){
+    public static void main(String[] args) {
         new Signup3("").setVisible(true);
     }
-    
 }

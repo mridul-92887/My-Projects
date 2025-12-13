@@ -165,7 +165,7 @@ public class FastCash extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(null, 
                     "Cannot withdraw Rs. " + amount + 
                     ". After withdrawal, your balance would be below 500 TK." +
-                    "\nMaximum you can withdraw: Rs. " + maximumWithdrawable);
+                    "\nMaximum you can withdraw: BDT. " + maximumWithdrawable);
                 return;
             }
             
@@ -173,8 +173,7 @@ public class FastCash extends JFrame implements ActionListener {
             Date date = new Date();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String formattedDate = sdf.format(date);
-            
-            // Insert withdrawal transaction
+
             String query = "INSERT INTO bank (pin, date, mode, amount) VALUES ('" + pin + "', '" + 
                           formattedDate + "', 'Withdrawl', '" + amount + "')";
             

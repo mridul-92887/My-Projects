@@ -9,8 +9,8 @@ import java.util.*;
 
 public class Signup extends JFrame implements ActionListener{
     
-    JLabel l1,l2,l3,l4,l5,l6,l7,l8,l9,l10,l11,l12,l13,l14,l15;
-    JTextField t1,t2,t3,t4,t5,t6,t7;
+    JLabel l1,l2,l3,l4,l5,l6,l7,l8,l9,l10,l11,l12,l13,l14,l15,l16;
+    JTextField t1,t2,t3,t4,t5,t6,t7,t8;
     JRadioButton r1,r2,r3,r4,r5;
     JButton b;
     JDateChooser dateChooser;
@@ -25,15 +25,16 @@ public class Signup extends JFrame implements ActionListener{
         Image i2 = i1.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT);
         ImageIcon i3 = new ImageIcon(i2);
         JLabel l11 = new JLabel(i3);
-        l11.setBounds(20, 0, 100, 100);
+        l11.setBounds(150, 0, 100, 100);
         add(l11);
         
         // Calculate next form number from database
         formno = getNextFormNumber();
         
         l1 = new JLabel("APPLICATION FORM NO. "+ formno);
-        l1.setFont(new Font("Raleway", Font.BOLD, 38));
-        
+        l1.setFont(new Font("Raleway", Font.BOLD, 22));
+        l1.setHorizontalAlignment(SwingConstants.CENTER); // Center align the text
+      
         l2 = new JLabel("Page 1: Personal Details");
         l2.setFont(new Font("Raleway", Font.BOLD, 22));
         
@@ -42,6 +43,10 @@ public class Signup extends JFrame implements ActionListener{
         
         l4 = new JLabel("Father's Name:");
         l4.setFont(new Font("Raleway", Font.BOLD, 20));
+        
+        // ADDED: Mother's Name label
+        l16 = new JLabel("Mother's Name:");
+        l16.setFont(new Font("Raleway", Font.BOLD, 20));
         
         l5 = new JLabel("Date of Birth:");
         l5.setFont(new Font("Raleway", Font.BOLD, 20));
@@ -61,27 +66,27 @@ public class Signup extends JFrame implements ActionListener{
         l10 = new JLabel("City:");
         l10.setFont(new Font("Raleway", Font.BOLD, 20));
         
-        JLabel l16 = new JLabel("Zip Code:"); // Changed variable name to avoid conflict
-        l16.setFont(new Font("Raleway", Font.BOLD, 20));
-        
-        l12 = new JLabel("State:");
+        l12 = new JLabel("Zip Code:");
         l12.setFont(new Font("Raleway", Font.BOLD, 20));
         
-        l13 = new JLabel("Date");
-        l13.setFont(new Font("Raleway", Font.BOLD, 14));
+        l13 = new JLabel("State:");
+        l13.setFont(new Font("Raleway", Font.BOLD, 20));
         
-        l14 = new JLabel("Month");
+        l14 = new JLabel("Date");
         l14.setFont(new Font("Raleway", Font.BOLD, 14));
         
         l15 = new JLabel("Year");
         l15.setFont(new Font("Raleway", Font.BOLD, 14));
-        
         
         t1 = new JTextField();
         t1.setFont(new Font("Raleway", Font.BOLD, 14));
         
         t2 = new JTextField();
         t2.setFont(new Font("Raleway", Font.BOLD, 14));
+        
+        // ADDED: Mother's Name text field
+        t8 = new JTextField();
+        t8.setFont(new Font("Raleway", Font.BOLD, 14));
         
         t3 = new JTextField();
         t3.setFont(new Font("Raleway", Font.BOLD, 14));
@@ -136,10 +141,14 @@ public class Signup extends JFrame implements ActionListener{
         dateChooser.setForeground(new Color(105, 105, 105));
         
         setLayout(null);
-        l1.setBounds(140,20,600,40);
+        
+        // Center the form number at the top middle
+        l1.setBounds(0, 20, 850, 40);
         add(l1);
         
-        l2.setBounds(290,80,600,30);
+        // Center "Page 1: Personal Details" below the form number
+        l2.setBounds(0, 80, 850, 30);
+        l2.setHorizontalAlignment(SwingConstants.CENTER);
         add(l2);
         
         l3.setBounds(100,140,100,30);
@@ -154,64 +163,71 @@ public class Signup extends JFrame implements ActionListener{
         t2.setBounds(300,190,400,30);
         add(t2);
         
-        l5.setBounds(100,240,200,30);
-        add(l5);
-        
-        dateChooser.setBounds(300, 240, 400, 30);
-        add(dateChooser);
-        
-        l6.setBounds(100,290,200,30);
-        add(l6);
-        
-        r1.setBounds(300,290,60,30);
-        add(r1);
-        
-        r2.setBounds(450,290,90,30);
-        add(r2);
-        
-        l7.setBounds(100,340,200,30);
-        add(l7);
-        
-        t3.setBounds(300,340,400,30);
-        add(t3);
-        
-        l8.setBounds(100,390,200,30);
-        add(l8);
-        
-        r3.setBounds(300,390,100,30);
-        add(r3);
-        
-        r4.setBounds(450,390,100,30);
-        add(r4);
-        
-        r5.setBounds(635,390,100,30);
-        add(r5);
-        
-        l9.setBounds(100,440,200,30);
-        add(l9);
-        
-        t4.setBounds(300,440,400,30);
-        add(t4);
-        
-        l10.setBounds(100,490,200,30);
-        add(l10);
-        
-        t5.setBounds(300,490,400,30);
-        add(t5);
-        
-        l16.setBounds(100,540,200,30); // Use l16 instead of l11
+        // ADDED: Mother's Name
+        l16.setBounds(100,240,200,30);
         add(l16);
         
-        t6.setBounds(300,540,400,30);
-        add(t6);
+        t8.setBounds(300,240,400,30);
+        add(t8);
+        
+        l5.setBounds(100,290,200,30);
+        add(l5);
+        
+        dateChooser.setBounds(300, 290, 400, 30);
+        add(dateChooser);
+        
+        l6.setBounds(100,340,200,30);
+        add(l6);
+        
+        r1.setBounds(300,340,60,30);
+        add(r1);
+        
+        r2.setBounds(450,340,90,30);
+        add(r2);
+        
+        l7.setBounds(100,390,200,30);
+        add(l7);
+        
+        t3.setBounds(300,390,400,30);
+        add(t3);
+        
+        l8.setBounds(100,440,200,30);
+        add(l8);
+        
+        r3.setBounds(300,440,100,30);
+        add(r3);
+        
+        r4.setBounds(450,440,100,30);
+        add(r4);
+        
+        r5.setBounds(635,440,100,30);
+        add(r5);
+        
+        l9.setBounds(100,490,200,30);
+        add(l9);
+        
+        t4.setBounds(300,490,400,30);
+        add(t4);
+        
+        l10.setBounds(100,540,200,30);
+        add(l10);
+        
+        t5.setBounds(300,540,400,30);
+        add(t5);
         
         l12.setBounds(100,590,200,30);
         add(l12);
         
-        t7.setBounds(300,590,400,30);
+        t6.setBounds(300,590,400,30);
+        add(t6);
+        
+        l13.setBounds(100,640,200,30);
+        add(l13);
+        
+        t7.setBounds(300,640,400,30);
         add(t7);
         
-        b.setBounds(620,660,80,30);
+        b.setBounds(620,700,80,30);
         add(b);
         
         b.addActionListener(this); 
@@ -248,6 +264,7 @@ public class Signup extends JFrame implements ActionListener{
         
         String name = t1.getText();
         String fname = t2.getText();
+        String mname = t8.getText(); // ADDED: Mother's name
         String dob = ((JTextField) dateChooser.getDateEditor().getUiComponent()).getText();
         String gender = null;
         if(r1.isSelected()){ 
@@ -277,7 +294,7 @@ public class Signup extends JFrame implements ActionListener{
             }else{
                 Conn c1 = new Conn();
                 // Insert with the calculated form number
-                String q1 = "insert into signup values('"+formno+"','"+name+"','"+fname+"','"+dob+"','"+gender+"','"+email+"','"+marital+"','"+address+"','"+city+"','"+zipcode+"','"+state+"')";
+                String q1 = "insert into signup values('"+formno+"','"+name+"','"+fname+"','"+mname+"','"+dob+"','"+gender+"','"+email+"','"+marital+"','"+address+"','"+city+"','"+zipcode+"','"+state+"')";
                 c1.s.executeUpdate(q1);
                 
                 new Signup2(formno).setVisible(true);
